@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pendaftaran Pasien - Klinik Sehat</title>
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ============================================================
+       CUSTOM CSS — Desain Modern & Responsif
+       ============================================================ */
+    :root {
+      --primary-color: #0d6efd;
+      --secondary-color: #6c757d;
+      --success-color: #198754;
+      --danger-color: #dc3545;
+      --warning-color: #ffc107;
+      --info-color: #0dcaf0;
+      --bg-light: #f8f9fa;
+      --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    * {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-light);
+      min-height: 100vh;
+    }
+
+    /* Header dengan gradient */
+    .app-header {
+      background: var(--bg-gradient);
+      color: white;
+      padding: 1.5rem 0;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+
+    .app-header h1 {
+      font-weight: 700;
+      font-size: 1.8rem;
+      margin: 0;
+    }
+
+    .app-header p {
+      margin: 0;
+      opacity: 0.9;
+    }
+
+    /* Card styling */
+    .card {
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    }
+
+    .card-header {
+      background: white;
+      border-bottom: 2px solid #e9ecef;
+      border-radius: 16px 16px 0 0 !important;
+      padding: 1.25rem 1.5rem;
+      font-weight: 600;
+    }
+
+    /* Form styling */
+    .form-control, .form-select {
+      border-radius: 10px;
+      border: 2px solid #e9ecef;
+      padding: 0.75rem 1rem;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+    }
+
+    .form-label {
+      font-weight: 500;
+      color: #495057;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Button styling */
+    .btn {
+      border-radius: 10px;
+      padding: 0.6rem 1.2rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary-color);
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: #0b5ed7;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+    }
+
+    .btn-success {
+      background: var(--success-color);
+      border: none;
+    }
+
+    .btn-success:hover {
+      background: #157347;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(25, 135, 84, 0.3);
+    }
+
+    .btn-warning {
+      background: var(--warning-color);
+      border: none;
+      color: #212529;
+    }
+
+    .btn-info {
+      background: var(--info-color);
+      border: none;
+      color: white;
+    }
+
+    .btn-danger {
+      background: var(--danger-color);
+      border: none;
+    }
+
+    /* Tombol pemanggilan khusus */
+    .btn-call {
+      background: linear-gradient(135deg, #28a745, #20c997);
+      border: none;
+      color: white;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-call:hover {
+      background: linear-gradient(135deg, #218838, #1ba87e);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+    }
+
+    .btn-repeat {
+      background: linear-gradient(135deg, #fd7e14, #ffc107);
+      border: none;
+      color: white;
+      font-weight: 600;
+    }
+
+    .btn-repeat:hover {
+      background: linear-gradient(135deg, #e56b0a, #e0a800);
+      color: white;
+    }
+
+    .btn-next {
+      background: linear-gradient(135deg, #6f42c1, #d63384);
+      border: none;
+      color: white;
+      font-weight: 600;
+    }
+
+    .btn-next:hover {
+      background: linear-gradient(135deg, #5a32a3, #b52a6f);
+      color: white;
+    }
+
+    /* Tabel styling */
+    .table-container {
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .table {
+      margin-bottom: 0;
+    }
+
+    .table thead th {
+      background: var(--bg-gradient);
+      color: white;
+      font-weight: 600;
+      border: none;
+      padding: 1rem;
+    }
+
+    .table tbody tr {
+      transition: background-color 0.15s ease;
+    }
+
+    .table tbody tr:hover {
+      background-color: #f1f3ff;
+    }
+
+    .table tbody td {
+      padding: 1rem;
+      vertical-align: middle;
+    }
+
+    /* Badge status */
+    .badge-status {
+      padding: 0.5rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .badge-menunggu {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+
+    .badge-dipanggil {
+      background-color: #d1ecf1;
+      color: #0c5460;
+      animation: pulse 1.5s infinite;
+    }
+
+    .badge-selesai {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    /* Nomor urut besar */
+    .nomor-urut {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+      height: 45px;
+      background: var(--bg-gradient);
+      color: white;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    /* Tombol aksi kecil */
+    .btn-action {
+      padding: 0.4rem 0.6rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+    }
+
+    /* Toast notification */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+    }
+
+    .toast {
+      border-radius: 12px;
+      border: none;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+
+    /* Panel pemanggilan */
+    .call-panel {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 16px;
+      padding: 1.5rem;
+      border: 2px dashed #dee2e6;
+    }
+
+    .call-panel.active {
+      background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+      border-color: var(--success-color);
+    }
+
+    .current-patient {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--success-color);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .app-header h1 {
+        font-size: 1.3rem;
+      }
+      
+      .btn-call, .btn-repeat, .btn-next {
+        width: 100%;
+        margin-bottom: 0.5rem;
+      }
+
+      .table-responsive {
+        border-radius: 16px;
+      }
+    }
+
+    /* Loading spinner */
+    .spinner-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9998;
+      display: none;
+    }
+
+    .spinner-overlay.show {
+      display: flex;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Loading Overlay -->
+  <div class="spinner-overlay" id="loadingOverlay">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h1><i class="bi bi-hospital me-2"></i>Klinik Sehat</h1>
+          <p class="mt-1"><i class="bi bi-calendar-event me-1"></i>Sistem Pendaftaran & Pemanggilan Pasien</p>
+        </div>
+        <div class="text-end d-none d-md-block">
+          <div id="jamDigital" style="font-size: 1.5rem; font-weight: 600;"></div>
+          <div id="tanggalDigital" style="font-size: 0.9rem; opacity: 0.9;"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container pb-5">
+    <div class="row g-4">
+      
+      <!-- Kolom Kiri: Form Pendaftaran -->
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-header d-flex align-items-center">
+            <i class="bi bi-person-plus-fill me-2 text-primary"></i>
+            <span>Form Pendaftaran Pasien</span>
+          </div>
+          <div class="card-body p-4">
+            <form id="formPasien">
+              <!-- Hidden field untuk mode edit -->
+              <input type="hidden" id="editId" value="">
+
+              <!-- Nomor Urut -->
+              <div class="mb-3">
+                <label for="nomerUrut" class="form-label">
+                  <i class="bi bi-hash me-1"></i>Nomor Urut
+                </label>
+                <input type="number" class="form-control" id="nomerUrut" placeholder="Masukkan nomor urut" min="1" required>
+                <div class="invalid-feedback">Nomor urut wajib diisi!</div>
+              </div>
+
+              <!-- Nama Pasien -->
+              <div class="mb-3">
+                <label for="namaPasien" class="form-label">
+                  <i class="bi bi-person me-1"></i>Nama Pasien
+                </label>
+                <input type="text" class="form-control" id="namaPasien" placeholder="Masukkan nama lengkap pasien" required>
+                <div class="invalid-feedback">Nama pasien wajib diisi!</div>
+              </div>
+
+              <!-- Tanggal Daftar -->
+              <div class="mb-4">
+                <label for="tanggalDaftar" class="form-label">
+                  <i class="bi bi-calendar3 me-1"></i>Tanggal Daftar
+                </label>
+                <input type="date" class="form-control" id="tanggalDaftar" required>
+                <div class="invalid-feedback">Tanggal daftar wajib diisi!</div>
+              </div>
+
+              <!-- Tombol Submit (Tambah/Update) -->
+              <button type="submit" class="btn btn-primary w-100 mb-3" id="btnSubmit">
+                <i class="bi bi-plus-circle me-2"></i>Tambah Pasien
+              </button>
+
+              <!-- Tombol Batal Edit -->
+              <button type="button" class="btn btn-secondary w-100 mb-4" id="btnBatalEdit" style="display: none;">
+                <i class="bi bi-x-circle me-2"></i>Batal Edit
+              </button>
+            </form>
+
+            <hr class="my-4">
+
+            <!-- Panel Pemanggilan -->
+            <div class="call-panel" id="callPanel">
+              <h6 class="text-muted mb-3"><i class="bi bi-megaphone me-2"></i>Panel Pemanggilan</h6>
+              
+              <div id="infoPasienDipanggil" class="mb-3">
+                <p class="text-muted mb-1">Pasien yang dipanggil:</p>
+                <div class="current-patient" id="namaPasienDipanggil">-</div>
+                <small class="text-muted" id="nomerPasienDipanggil">Nomor: -</small>
+              </div>
+
+              <div class="d-grid gap-2">
+                <button type="button" class="btn btn-call" id="btnPanggilPasien" disabled>
+                  <i class="bi bi-volume-up me-2"></i>Panggil Pasien
+                </button>
+                <button type="button" class="btn btn-repeat" id="btnUlangiPanggilan" disabled>
+                  <i class="bi bi-arrow-repeat me-2"></i>Ulangi Panggilan
+                </button>
+                <button type="button" class="btn btn-next" id="btnPasienSelanjutnya">
+                  <i class="bi bi-skip-forward me-2"></i>Pasien Selanjutnya
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kolom Kanan: Daftar Pasien -->
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+              <i class="bi bi-list-ol me-2 text-primary"></i>
+              <span>Daftar Pasien Terdaftar</span>
+            </div>
+            <button class="btn btn-sm btn-outline-primary" id="btnRefresh">
+              <i class="bi bi-arrow-clockwise me-1"></i>Refresh
+            </button>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive table-container">
+              <table class="table table-hover align-middle">
+                <thead>
+                  <tr>
+                    <th class="text-center">No</th>
+                    <th>Nomor Urut</th>
+                    <th>Nama Pasien</th>
+                    <th>Tanggal Daftar</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyPasien">
+                  <!-- Data akan diisi oleh JavaScript -->
+                  <tr>
+                    <td colspan="6" class="text-center text-muted py-4">
+                      <i class="bi bi-inbox fs-2 d-block mb-2"></i>
+                      Belum ada data pasien
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Info Panel -->
+        <div class="card mt-4">
+          <div class="card-body">
+            <div class="row text-center">
+              <div class="col-4">
+                <div class="text-primary fs-3 fw-bold" id="totalPasien">0</div>
+                <small class="text-muted">Total Pasien</small>
+              </div>
+              <div class="col-4">
+                <div class="text-warning fs-3 fw-bold" id="totalMenunggu">0</div>
+                <small class="text-muted">Menunggu</small>
+              </div>
+              <div class="col-4">
+                <div class="text-success fs-3 fw-bold" id="totalSelesai">0</div>
+                <small class="text-muted">Selesai/Dipanggil</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Import main.js sebagai module -->
+  <script type="module" src="main.js"></script>
+  
+   <!-- Import main.js sebagai module -->
+  <script type="module" src="main.js"></script>
+  
+  <!-- Script Halaman Index -->
+  <script type="module">
+    import {
+      ambilDaftarPasien,
+      tambahPasien,
+      ubahPasien,
+      hapusdataPasien,
+      ambilPasien,
+      ambilPasienDipanggil,
+      ambilDaftarPasienMenunggu,
+      panggilPasien,
+      ulangiPanggilanPasien,
+      putarSuaraPanggilan,
+      formatTanggal,
+      formatNomorUrut
+    } from './main.js';
+
+    // ============================================================
+    // VARIABEL DOM
+    // ============================================================
+    const formPasien = document.getElementById('formPasien');
+    const editId = document.getElementById('editId');
+    const nomerUrut = document.getElementById('nomerUrut');
+    const namaPasien = document.getElementById('namaPasien');
+    const tanggalDaftar = document.getElementById('tanggalDaftar');
+    const btnSubmit = document.getElementById('btnSubmit');
+    const btnBatalEdit = document.getElementById('btnBatalEdit');
+    const tbodyPasien = document.getElementById('tbodyPasien');
+    const btnRefresh = document.getElementById('btnRefresh');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    
+    // Panel pemanggilan
+    const btnPanggilPasien = document.getElementById('btnPanggilPasien');
+    const btnUlangiPanggilan = document.getElementById('btnUlangiPanggilan');
+    const btnPasienSelanjutnya = document.getElementById('btnPasienSelanjutnya');
+    const namaPasienDipanggil = document.getElementById('namaPasienDipanggil');
+    const nomerPasienDipanggil = document.getElementById('nomerPasienDipanggil');
+    const callPanel = document.getElementById('callPanel');
+
+    // Statistik
+    const totalPasienEl = document.getElementById('totalPasien');
+    const totalMenungguEl = document.getElementById('totalMenunggu');
+    const totalSelesaiEl = document.getElementById('totalSelesai');
+
+    // Variabel state
+    let pasienDipanggilSaatIni = null; // Data pasien yang sedang dipanggil
+    let pasienTerpilih = null;         // Data pasien yang sedang dipilih/diedit di form
+
+    // ============================================================
+    // INISIALISASI
+    // ============================================================
+    
+    // Set tanggal default ke hari ini
+    tanggalDaftar.valueAsDate = new Date();
+
+    // Muat data pasien saat halaman dibuka
+    muatDataPasien();
+    muatPasienDipanggil();
+
+    // ============================================================
+    // FUNGSI UTILITAS
+    // ============================================================
+
+    /** Tampilkan loading overlay */
+    function tampilkanLoading() {
+      loadingOverlay.classList.add('show');
+    }
+
+    /** Sembunyikan loading overlay */
+    function sembunyikanLoading() {
+      loadingOverlay.classList.remove('show');
+    }
+
+    /** Tampilkan toast notification */
+    function tampilkanToast(pesan, tipe = 'success') {
+      const toastContainer = document.getElementById('toastContainer');
+      const icon = tipe === 'success' ? 'bi-check-circle-fill' : 
+                   tipe === 'error' ? 'bi-x-circle-fill' : 'bi-info-circle-fill';
+      const bgClass = tipe === 'success' ? 'bg-success' : 
+                      tipe === 'error' ? 'bg-danger' : 'bg-info';
+
+      const toastHtml = `
+        <div class="toast align-items-center text-white ${bgClass} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="d-flex">
+            <div class="toast-body">
+              <i class="bi ${icon} me-2"></i>${pesan}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+        </div>
+      `;
+
+      toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+      const toastElement = toastContainer.lastElementChild;
+      const toast = new bootstrap.Toast(toastElement, { delay: 3000 });
+      toast.show();
+
+      toastElement.addEventListener('hidden.bs.toast', () => {
+        toastElement.remove();
+      });
+    }
+
+    /** Update jam digital di header */
+    function updateJamDigital() {
+      const sekarang = new Date();
+      const jam = sekarang.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const tanggal = sekarang.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      
+      document.getElementById('jamDigital').textContent = jam;
+      document.getElementById('tanggalDigital').textContent = tanggal;
+    }
+    setInterval(updateJamDigital, 1000);
+    updateJamDigital();
+
+    /** Reset form ke kondisi awal */
+    function resetForm() {
+      formPasien.reset();
+      tanggalDaftar.valueAsDate = new Date();
+      editId.value = '';
+      pasienTerpilih = null;
+      btnSubmit.innerHTML = '<i class="bi bi-plus-circle me-2"></i>Tambah Pasien';
+      btnBatalEdit.style.display = 'none';
+      nomerUrut.readOnly = false;
+      
+      // Hapus class validasi
+      formPasien.classList.remove('was-validated');
+      
+      // Update tombol panggil
+      updateTombolPanggil();
+    }
+
+    /** Dapatkan badge status */
+    function getBadgeStatus(status) {
+      if (status === 'menunggu') {
+        return '<span class="badge-status badge-menunggu"><i class="bi bi-hourglass-split me-1"></i>Menunggu</span>';
+      } else if (status === 'dipanggil') {
+        return '<span class="badge-status badge-dipanggil"><i class="bi bi-megaphone me-1"></i>Dipanggil</span>';
+      } else {
+        return '<span class="badge-status badge-selesai"><i class="bi bi-check-circle me-1"></i>Selesai</span>';
+      }
+    }
+
+    /** Update status tombol panggil berdasarkan state */
+    function updateTombolPanggil() {
+      // Jika ada pasien yang sedang dipanggil secara global
+      if (pasienDipanggilSaatIni) {
+        namaPasienDipanggil.textContent = pasienDipanggilSaatIni.nama;
+        nomerPasienDipanggil.textContent = `Nomor: ${formatNomorUrut(pasienDipanggilSaatIni.nomerUrut)}`;
+        callPanel.classList.add('active');
+        btnPanggilPasien.disabled = false;
+        btnUlangiPanggilan.disabled = false;
+      } 
+      // Jika ada pasien yang sedang dipilih/diedit di form (bisa dipanggil)
+      else if (pasienTerpilih && pasienTerpilih.status === 'menunggu') {
+        namaPasienDipanggil.textContent = pasienTerpilih.nama;
+        nomerPasienDipanggil.textContent = `Nomor: ${formatNomorUrut(pasienTerpilih.nomerUrut)} (Terpilih)`;
+        callPanel.classList.add('active');
+        btnPanggilPasien.disabled = false;
+        btnUlangiPanggilan.disabled = true; // Belum pernah dipanggil, jadi tidak bisa ulang
+      }
+      else {
+        namaPasienDipanggil.textContent = "-";
+        nomerPasienDipanggil.textContent = "Nomor: -";
+        callPanel.classList.remove('active');
+        btnPanggilPasien.disabled = true;
+        btnUlangiPanggilan.disabled = true;
+      }
+    }
+
+    // ============================================================
+    // FUNGSI CRUD — MUAT DATA
+    // ============================================================
+
+    /** Muat dan tampilkan daftar pasien ke tabel */
+    async function muatDataPasien() {
+      tampilkanLoading();
+      try {
+        const daftarPasien = await ambilDaftarPasien();
+        renderTabelPasien(daftarPasien);
+        updateStatistik(daftarPasien);
+      } catch (error) {
+        console.log("Gagal memuat data: " + error);
+        tampilkanToast("Gagal memuat data pasien!", "error");
+      } finally {
+        sembunyikanLoading();
+      }
+    }
+
+    /** Render data pasien ke tabel HTML */
+    function renderTabelPasien(daftarPasien) {
+      if (daftarPasien.length === 0) {
+        tbodyPasien.innerHTML = `
+          <tr>
+            <td colspan="6" class="text-center text-muted py-4">
+              <i class="bi bi-inbox fs-2 d-block mb-2"></i>
+              Belum ada data pasien
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      let html = '';
+      daftarPasien.forEach((pasien, index) => {
+        // Highlight baris jika ini pasien yang sedang dipanggil
+        const rowClass = pasien.status === 'dipanggil' ? 'table-success' : '';
+        
+        html += `
+          <tr class="${rowClass}">
+            <td class="text-center">${index + 1}</td>
+            <td>
+              <span class="nomor-urut">${formatNomorUrut(pasien.nomerUrut)}</span>
+            </td>
+            <td class="fw-medium">${pasien.nama}</td>
+            <td>${formatTanggal(pasien.tanggalDaftar)}</td>
+            <td class="text-center">${getBadgeStatus(pasien.status)}</td>
+            <td class="text-center">
+              <button class="btn btn-sm btn-primary btn-action me-1" onclick="window.editPasien('${pasien.id}')" title="Edit">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+              <button class="btn btn-sm btn-success btn-action me-1" onclick="window.panggilLangsung('${pasien.id}')" title="Panggil Langsung">
+                <i class="bi bi-megaphone"></i>
+              </button>
+              <button class="btn btn-sm btn-danger btn-action" onclick="window.hapusPasien('${pasien.id}')" title="Hapus">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbodyPasien.innerHTML = html;
+    }
+
+    /** Update angka statistik */
+    function updateStatistik(daftarPasien) {
+      const total = daftarPasien.length;
+      const menunggu = daftarPasien.filter(p => p.status === 'menunggu').length;
+      const selesai = daftarPasien.filter(p => p.status === 'selesai' || p.status === 'dipanggil').length;
+
+      totalPasienEl.textContent = total;
+      totalMenungguEl.textContent = menunggu;
+      totalSelesaiEl.textContent = selesai;
+    }
+
+    // ============================================================
+    // FUNGSI FORM — TAMBAH & EDIT
+    // ============================================================
+
+    /** Handle submit form (Tambah atau Update) */
+    formPasien.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Validasi form Bootstrap
+      if (!formPasien.checkValidity()) {
+        formPasien.classList.add('was-validated');
+        return;
+      }
+
+      // Ambil nilai input
+      const noUrut = parseInt(nomerUrut.value.trim());
+      const nama = namaPasien.value.trim();
+      const tgl = tanggalDaftar.value;
+
+      // Validasi sederhana: cek input kosong
+      if (!noUrut || !nama || !tgl) {
+        tampilkanToast("Semua field wajib diisi!", "error");
+        return;
+      }
+
+      tampilkanLoading();
+      try {
+        if (editId.value) {
+          // Mode Edit
+          await ubahPasien(editId.value, noUrut, nama, tgl);
+          tampilkanToast("Data pasien berhasil diperbarui!");
+        } else {
+          // Mode Tambah
+          await tambahPasien(noUrut, nama, tgl);
+          tampilkanToast("Pasien berhasil didaftarkan!");
+        }
+        resetForm();
+        await muatDataPasien();
+      } catch (error) {
+        tampilkanToast("Terjadi kesalahan: " + error.message, "error");
+      } finally {
+        sembunyikanLoading();
+      }
+    });
+
+    /** Tombol batal edit */
+    btnBatalEdit.addEventListener('click', resetForm);
+
+    // ============================================================
+    // FUNGSI EDIT, HAPUS, & PANGGIL LANGSUNG (Global)
+    // ============================================================
+
+    /** Edit pasien — muat data ke form */
+    window.editPasien = async function(id) {
+      tampilkanLoading();
+      try {
+        const pasien = await ambilPasien(id);
+        if (pasien) {
+          editId.value = pasien.id;
+          nomerUrut.value = pasien.nomerUrut;
+          namaPasien.value = pasien.nama;
+          tanggalDaftar.value = pasien.tanggalDaftar;
+          
+          // Simpan ke state terpilih
+          pasienTerpilih = pasien;
+          
+          btnSubmit.innerHTML = '<i class="bi bi-check-circle me-2"></i>Update Pasien';
+          btnBatalEdit.style.display = 'block';
+          
+          updateTombolPanggil();
+          
+          // Scroll ke form
+          formPasien.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      } catch (error) {
+        tampilkanToast("Gagal mengambil data pasien!", "error");
+      } finally {
+        sembunyikanLoading();
+      }
+    };
+
+    /** Hapus pasien dengan konfirmasi */
+    window.hapusPasien = async function(id) {
+      if (!confirm("Apakah Anda yakin ingin menghapus data pasien ini?")) {
+        return;
+      }
+
+      tampilkanLoading();
+      try {
+        await hapusdataPasien(id);
+        tampilkanToast("Data pasien berhasil dihapus!");
+        
+        // Reset form jika pasien yang dihapus sedang diedit
+        if (pasienTerpilih && pasienTerpilih.id === id) {
+          resetForm();
+        }
+        
+        // Reset panel jika pasien yang dihapus sedang dipanggil
+        if (pasienDipanggilSaatIni && pasienDipanggilSaatIni.id === id) {
+          pasienDipanggilSaatIni = null;
+        }
+        
+        await muatDataPasien();
+        updateTombolPanggil();
+      } catch (error) {
+        tampilkanToast("Gagal menghapus data!", "error");
+      } finally {
+        sembunyikanLoading();
+      }
+    };
+
+    /** Panggil langsung dari tombol di tabel (tidak perlu lewat panel) */
+    window.panggilLangsung = async function(id) {
+      tampilkanLoading();
+      try {
+        const pasien = await ambilPasien(id);
+        if (!pasien) {
+          tampilkanToast("Data pasien tidak ditemukan!", "error");
+          return;
+        }
+
+        if (pasien.status !== 'menunggu') {
+          tampilkanToast("Pasien ini sudah dipanggil atau selesai!", "info");
+          return;
+        }
+
+        // Panggil pasien
+        await panggilPasien(id);
+        
+        // Update state
+        pasienDipanggilSaatIni = pasien;
+        pasienTerpilih = pasien;
+        updateTombolPanggil();
+        
+        // Putar suara
+        putarSuaraPanggilan(pasien.nama, pasien.nomerUrut);
+        
+        tampilkanToast(`Memanggil pasien: ${pasien.nama}`);
+        await muatDataPasien();
+      } catch (error) {
+        tampilkanToast("Gagal memanggil pasien!", "error");
+      } finally {
+        sembunyikanLoading();
+      }
+    };
+
+    // ============================================================
+    // FUNGSI PEMANGGILAN PASIEN — PANEL
+    // ============================================================
+
+    /** Muat data pasien yang sedang dipanggil */
+    async function muatPasienDipanggil() {
+      try {
+        const pasien = await ambilPasienDipanggil();
+        pasienDipanggilSaatIni = pasien;
+        updateTombolPanggil();
+      } catch (error) {
+        console.log("Gagal memuat pasien dipanggil: " + error);
+        // Jangan tampilkan toast agar tidak mengganggu, cukup log
+      }
+    }
+
+    /** Tombol Panggil Pasien — panggil suara untuk pasien aktif/terpilih */
+    btnPanggilPasien.addEventListener('click', function() {
+      // Prioritas: pasien yang sedang dipanggil secara global
+      const target = pasienDipanggilSaatIni || pasienTerpilih;
+      
+      if (target) {
+        putarSuaraPanggilan(target.nama, target.nomerUrut);
+        tampilkanToast(`Memanggil: ${target.nama}`);
+      }
+    });
+
+    /** Tombol Ulangi Panggilan */
+    btnUlangiPanggilan.addEventListener('click', async function() {
+      const target = pasienDipanggilSaatIni || pasienTerpilih;
+      
+      if (target) {
+        try {
+          // Update timestamp di database agar display TV tahu ada perubahan
+          await ulangiPanggilanPasien(target.id);
+          putarSuaraPanggilan(target.nama, target.nomerUrut);
+          tampilkanToast(`Mengulang panggilan: ${target.nama}`);
+        } catch (error) {
+          // Kalau gagal update DB, tetap putar suara lokal
+          putarSuaraPanggilan(target.nama, target.nomerUrut);
+          tampilkanToast(`Mengulang panggilan: ${target.nama}`);
+        }
+      }
+    });
+
+    /** Tombol Pasien Selanjutnya */
+    btnPasienSelanjutnya.addEventListener('click', async function() {
+      tampilkanLoading();
+      try {
+        const daftarMenunggu = await ambilDaftarPasienMenunggu();
+        
+        if (daftarMenunggu.length === 0) {
+          tampilkanToast("Tidak ada pasien yang menunggu!", "info");
+          sembunyikanLoading();
+          return;
+        }
+
+        // Ambil pasien pertama dari daftar menunggu
+        const pasienBerikutnya = daftarMenunggu[0];
+        
+        // Panggil pasien tersebut
+        await panggilPasien(pasienBerikutnya.id);
+        
+        // Update state
+        pasienDipanggilSaatIni = pasienBerikutnya;
+        pasienTerpilih = pasienBerikutnya;
+        updateTombolPanggil();
+        
+        // Putar suara panggilan
+        putarSuaraPanggilan(pasienBerikutnya.nama, pasienBerikutnya.nomerUrut);
+        
+        tampilkanToast(`Memanggil pasien: ${pasienBerikutnya.nama}`);
+        
+        // Refresh tabel
+        await muatDataPasien();
+      } catch (error) {
+        console.log(error);
+        tampilkanToast("Gagal memanggil pasien selanjutnya!", "error");
+      } finally {
+        sembunyikanLoading();
+      }
+    });
+
+    /** Tombol Refresh manual */
+    btnRefresh.addEventListener('click', async function() {
+      tampilkanLoading();
+      await muatDataPasien();
+      await muatPasienDipanggil();
+      sembunyikanLoading();
+      tampilkanToast("Data berhasil diperbarui!");
+    });
+
+    // Refresh otomatis setiap 10 detik
+    setInterval(async () => {
+      await muatDataPasien();
+      await muatPasienDipanggil();
+    }, 10000);
+
+  </script>
+</body>
+</html>
